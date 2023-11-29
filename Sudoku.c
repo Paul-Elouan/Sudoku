@@ -43,7 +43,6 @@ void erreurs(int id);
 void chargement();
 
 
-
 int main()
 {
     char rejouer;
@@ -145,7 +144,7 @@ void afficherGrille(tGrille grille, tGrille grilleDeBase)
 
     for (int ligne = 0; ligne < BLOC; ligne++)
     {
-        if (ligne % 3 == 0 && ligne != 0) {
+        if (ligne % TAILLE == 0 && ligne != 0) {
             printf("  +-------+-------+-------+\n"); // Affichage d'une ligne de separation pour les blocs de 3x3
         }
 
@@ -153,7 +152,7 @@ void afficherGrille(tGrille grille, tGrille grilleDeBase)
 
         for (int colonne = 0; colonne < BLOC; colonne++)
         {
-            if (colonne % 3 == 0 && colonne != 0)
+            if (colonne % TAILLE == 0 && colonne != 0)
             {
                 printf("| "); // Affichage d'une colonne de separation pour les blocs de 3x3
             }
@@ -199,12 +198,12 @@ bool possible(tGrille grille, int numLigne, int numColonne, int valeur, tGrille 
     }
 
     // Verifie le bloc 3x3
-    int debutBlocLigne = (numLigne / 3) * 3; // val = [0,1,2], x3 = [0, 3, 6]
-    int debutBlocColonne = (numColonne / 3) * 3; // Donc prends l'input est quelque soit la valeur la transforme en [0,3,6], permettant de savoir son bloc
+    int debutBlocLigne = (numLigne / TAILLE) * TAILLE; // val = [0,1,2], x3 = [0, 3, 6]
+    int debutBlocColonne = (numColonne / TAILLE) * TAILLE; // Donc prends l'input est quelque soit la valeur la transforme en [0,3,6], permettant de savoir son bloc
 
-    for (int ligne = debutBlocLigne; ligne < debutBlocLigne + 3; ++ligne) // Le +3 est pour avoir la fin du bloc
+    for (int ligne = debutBlocLigne; ligne < debutBlocLigne + TAILLE; ++ligne) // Le +3 est pour avoir la fin du bloc
     {
-        for (int colonne = debutBlocColonne; colonne < debutBlocColonne + 3; ++colonne)
+        for (int colonne = debutBlocColonne; colonne < debutBlocColonne + TAILLE; ++colonne)
         {
             if (grille[ligne][colonne] == valeur) // Puis verifie si la valeur existe
             {
@@ -327,7 +326,7 @@ void erreurs(int id)
     }
 }
 
-void chargement() // Qnimation pour la deco
+void chargement() // Animation pour la deco
 {
     for (int _ = 0; _ < 3; _++)
     {
