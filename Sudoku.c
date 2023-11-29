@@ -310,7 +310,7 @@ void erreurs(int id)
         break;
 
     case SAISIR_DANS_BORNES:
-        printf(RED "Erreur" RESET "!\nVeuillez " RED "saisir" RESET " un " RED "entier entre 1 & 9" RESET ". Veuillez reessayer.\n");
+        printf(RED "Erreur" RESET "!\nVeuillez " RED "saisir" RESET " un " RED "entier entre 1 & %d" RESET ". Veuillez reessayer.\n", BLOC);
         break;
 
     case CASE_DE_BASE:
