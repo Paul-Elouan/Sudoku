@@ -42,6 +42,8 @@ bool grilleEstPleine(tGrille grille);
 void erreurs(int id);
 void chargement();
 
+int nbElementsLigne(tGrille g, int lig);
+int nbElementsColonne(tGrille g, int col);
 
 int main()
 {
@@ -118,8 +120,6 @@ void chargerGrille(tGrille grille)
         fread(grille, sizeof(int), BLOC*BLOC, file);       
     }
     fclose(file);
-    while (getchar() != '\n');  // Vide le buffer d'entree
-
     /*
     liste des grilles:
     Grille1.sud
@@ -141,13 +141,13 @@ void copieGrille(tGrille grilleDeBase, tGrille grille) // Copie la grille de bas
 
 void afficherGrille(tGrille grille, tGrille grilleDeBase)
 {
-    printf(GREEN "    1 2 3   4 5 6   7 8 9  \n" RESET); // Affichage des chiffres en haut (pour choisir la colonne)
-    printf("  +-------+-------+-------+\n");
+    printf(GREEN "    1  2  3     4  5  6     7  8  9  \n" RESET); // Affichage des chiffres en haut (pour choisir la colonne)
+    printf("  +----------+-----------+-----------+\n");
 
     for (int ligne = 0; ligne < BLOC; ligne++)
     {
         if (ligne % TAILLE == 0 && ligne != 0) {
-            printf("  +-------+-------+-------+\n"); // Affichage d'une ligne de separation pour les blocs de 3x3
+            printf("  +----------+-----------+-----------+\n"); // Affichage d'une ligne de separation pour les blocs de 3x3
         }
 
         printf(GREEN "%d" RESET " | ", ligne + 1); // Affichage des chiffres a droite (pour choisir la ligne)
@@ -156,25 +156,36 @@ void afficherGrille(tGrille grille, tGrille grilleDeBase)
         {
             if (colonne % TAILLE == 0 && colonne != 0)
             {
-                printf("| "); // Affichage d'une colonne de separation pour les blocs de 3x3
+                printf("|  "); // Affichage d'une colonne de separation pour les blocs de 3x3
             }
 
             if (grille[ligne][colonne] == 0)
             {
-                printf(". "); // Affichage d'un point si valeur vide
+                printf(".  "); // Affichage d'un point si valeur vide
             }
             else if (grille[ligne][colonne] == grilleDeBase[ligne][colonne])
             {
-                printf(RED "%d " RESET, grille[ligne][colonne]); // La valeur sinon, si case de base en rouge
+                printf(RED "%d  " RESET, grille[ligne][colonne]); // La valeur sinon, si case de base en rouge
             }
             else
             {
-                printf(BLUE "%d " RESET, grille[ligne][colonne]); // Bleu sinon
+                printf(BLUE "%d  " RESET, grille[ligne][colonne]); // Bleu sinon
             }
         }
-        printf("|\n");
+        printf("| (" GREEN "%d" RESET ")\n", nbElementsLigne(grille, ligne));
     }
-    printf("  +-------+-------+-------+\n");
+    printf("  +----------+-----------+-----------+\n");
+    printf(GREEN "   ");
+    
+    for (int colonne = 0; colonne < BLOC; colonne++)
+    {
+        printf("(%d)", nbElementsColonne(grille, colonne));
+        if (colonne % TAILLE == TAILLE-1)
+        {
+            printf("   ");
+        }
+    }
+    printf("\n" RESET);
 }
 
 bool possible(tGrille grille, int numLigne, int numColonne, int valeur, tGrille grilleDefault) // Retourne true si l'entree de la valeur est possible, false sinon
@@ -337,4 +348,32 @@ void chargement() // Animation pour la deco
         printf(".");
     }
     printf("\n");
+}
+
+int nbElementsLigne(tGrille g, int lig)
+{
+    int nbValeur = 0;
+
+    for (int index = 0; index < BLOC; index++)
+    {
+        if (g[lig][index] != 0)
+        {
+            nbValeur++;
+        }
+    }
+    return nbValeur;
+}
+
+int nbElementsColonne(tGrille g, int col)
+{
+    int nbValeur = 0;
+
+    for (int index = 0; index < BLOC; index++)
+    {
+        if (g[index][col] != 0)
+        {
+            nbValeur++;
+        }
+    }
+    return nbValeur;
 }
